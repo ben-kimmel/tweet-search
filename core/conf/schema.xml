@@ -9,10 +9,11 @@
    <field name="created_at"      type="date"    indexed="true" stored="true"/>
    <field name="is_retweet" type="string"    indexed="true" stored="true"/>
    <field name="retweet_count" type="int"    indexed="true" stored="false"/>
+   <field name="_version_" type="string" indexed="true" stored="true" multiValued="false" />
  </fields>
 
 
- <uniqueKey>id</uniqueKey>
+ <uniqueKey>id_str</uniqueKey>
 
  <types>
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
