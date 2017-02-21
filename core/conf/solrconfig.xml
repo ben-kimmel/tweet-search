@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Licensed to the Apache Software Foundation (ASF) under one or more
  contributor license agreements.  See the NOTICE file distributed with
@@ -16,339 +16,144 @@
  limitations under the License.
 -->
 <config>
-
-  <luceneMatchVersion>4.7</luceneMatchVersion>
-
-  <lib dir="../../../contrib/dataimporthandler/lib" regex=".*\.jar" />
-  <lib dir="../../../dist/" regex="solr-dataimporthandler-.*\.jar" />
-
-  <lib dir="../../../contrib/extraction/lib" regex=".*\.jar" />
-  <lib dir="../../../dist/" regex="solr-cell-\d.*\.jar" />
-
-  <lib dir="../../../contrib/clustering/lib/" regex=".*\.jar" />
-  <lib dir="../../../dist/" regex="solr-clustering-\d.*\.jar" />
-
-  <lib dir="../../../contrib/langid/lib/" regex=".*\.jar" />
-  <lib dir="../../../dist/" regex="solr-langid-\d.*\.jar" />
-
-  <lib dir="../../../contrib/velocity/lib" regex=".*\.jar" />
-  <lib dir="../../../contrib/plugins" regex=".*\.jar" />
-  <lib dir="../../../dist/" regex="solr-velocity-\d.*\.jar" />
-
-  <dataDir>${solr.data.dir:}</dataDir>
-
-  <directoryFactory name="DirectoryFactory"
-                    class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}"/>
-
-  <codecFactory class="solr.SchemaCodecFactory"/>
-
-  <schemaFactory class="ClassicIndexSchemaFactory"/>
-
-  <indexConfig>
-    <lockType>${solr.lock.type:native}</lockType>
-  </indexConfig>
-
-  <updateHandler class="solr.DirectUpdateHandler2">
-
-    <updateLog>
-      <str name="dir">${solr.ulog.dir:}</str>
-    </updateLog>
-
-     <autoCommit>
-       <maxTime>15000</maxTime>
-       <openSearcher>false</openSearcher>
-     </autoCommit>
-
-  </updateHandler>
-
-  <query>
-
-    <maxBooleanClauses>1024</maxBooleanClauses>
-
-    <filterCache class="solr.FastLRUCache"
-                 size="512"
-                 initialSize="512"
-                 autowarmCount="0"/>
-
-
-    <queryResultCache class="solr.LRUCache"
-                     size="512"
-                     initialSize="512"
-                     autowarmCount="0"/>
-
-    <documentCache class="solr.LRUCache"
-                   size="512"
-                   initialSize="512"
-                   autowarmCount="0"/>
-
-    <enableLazyFieldLoading>true</enableLazyFieldLoading>
-
-   <queryResultWindowSize>20</queryResultWindowSize>
-
-   <queryResultMaxDocsCached>200</queryResultMaxDocsCached>
-
-   <!-- Query Related Event Listeners
-
-        Various IndexSearcher related events can trigger Listeners to
-        take actions.
-
-        newSearcher - fired whenever a new searcher is being prepared
-        and there is a current searcher handling requests (aka
-        registered).  It can be used to prime certain caches to
-        prevent long request times for certain requests.
-
-        firstSearcher - fired whenever a new searcher is being
-        prepared but there is no current registered searcher to handle
-        requests or to gain autowarming data from.
-
-
-     -->
-    <!-- QuerySenderListener takes an array of NamedList and executes a
-         local query request for each NamedList in sequence.
-      -->
-    <listener event="newSearcher" class="solr.QuerySenderListener">
-      <arr name="queries">
-        <!--
-           <lst><str name="q">solr</str><str name="sort">price asc</str></lst>
-           <lst><str name="q">rocks</str><str name="sort">weight asc</str></lst>
-          -->
-      </arr>
-    </listener>
-    <listener event="firstSearcher" class="solr.QuerySenderListener">
-      <arr name="queries">
-        <lst>
-          <str name="q">static firstSearcher warming in solrconfig.xml</str>
+    <luceneMatchVersion>4.7</luceneMatchVersion>
+    <lib dir="../../../contrib/dataimporthandler/lib" regex=".*\.jar" />
+    <lib dir="../../../dist/" regex="solr-dataimporthandler-.*\.jar" />
+    <lib dir="../../../contrib/extraction/lib" regex=".*\.jar" />
+    <lib dir="../../../dist/" regex="solr-cell-\d.*\.jar" />
+    <lib dir="../../../contrib/clustering/lib/" regex=".*\.jar" />
+    <lib dir="../../../dist/" regex="solr-clustering-\d.*\.jar" />
+    <lib dir="../../../contrib/langid/lib/" regex=".*\.jar" />
+    <lib dir="../../../dist/" regex="solr-langid-\d.*\.jar" />
+    <lib dir="../../../contrib/velocity/lib" regex=".*\.jar" />
+    <lib dir="../../../contrib/plugins" regex=".*\.jar" />
+    <lib dir="../../../dist/" regex="solr-velocity-\d.*\.jar" />
+    <dataDir>${solr.data.dir:}</dataDir>
+    <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}" />
+    <codecFactory class="solr.SchemaCodecFactory" />
+    <schemaFactory class="ClassicIndexSchemaFactory" />
+    <indexConfig>
+        <lockType>${solr.lock.type:native}</lockType>
+    </indexConfig>
+    <updateHandler class="solr.DirectUpdateHandler2">
+        <updateLog>
+            <str name="dir">${solr.ulog.dir:}</str>
+        </updateLog>
+        <autoCommit>
+            <maxTime>15000</maxTime>
+            <openSearcher>false</openSearcher>
+        </autoCommit>
+    </updateHandler>
+    <query>
+        <maxBooleanClauses>1024</maxBooleanClauses>
+        <filterCache class="solr.FastLRUCache" size="512" initialSize="512" autowarmCount="0" />
+        <queryResultCache class="solr.LRUCache" size="512" initialSize="512" autowarmCount="0" />
+        <documentCache class="solr.LRUCache" size="512" initialSize="512" autowarmCount="0" />
+        <enableLazyFieldLoading>true</enableLazyFieldLoading>
+        <queryResultWindowSize>20</queryResultWindowSize>
+        <queryResultMaxDocsCached>200</queryResultMaxDocsCached>
+        <listener event="newSearcher" class="solr.QuerySenderListener">
+            <arr name="queries" />
+        </listener>
+        <listener event="firstSearcher" class="solr.QuerySenderListener">
+            <arr name="queries">
+                <lst>
+                    <str name="q">static firstSearcher warming in solrconfig.xml</str>
+                </lst>
+            </arr>
+        </listener>
+        <useColdSearcher>false</useColdSearcher>
+        <maxWarmingSearchers>2</maxWarmingSearchers>
+    </query>
+    <requestDispatcher handleSelect="false">
+        <requestParsers enableRemoteStreaming="true" multipartUploadLimitInKB="2048000" formdataUploadLimitInKB="2048" />
+        <httpCaching never304="true" />
+    </requestDispatcher>
+    <requestHandler name="/select" class="solr.SearchHandler">
+        <arr name="components">
+            <str>query</str>
+            <str>facet</str>
+            <str>highlight</str>
+            <str>spellcheck</str>
+        </arr>
+        <lst name="defaults">
+            <str name="hl">on</str>
+            <str name="hl.fl">text</str>
+            <str name="facet">on</str>
+            <str name="facet.range">favorite_count</str>
+            <str name="facet.range.start">0</str>
+            <str name="facet.range.end">10000</str>
+            <str name="facet.range.gap">250</str>
+            <str name="facet.range.include">all</str>
+            <str name="spellcheck">on</str>
         </lst>
-      </arr>
-    </listener>
-
-    <!-- Use Cold Searcher
-
-         If a search request comes in and there is no current
-         registered searcher, then immediately register the still
-         warming searcher and use it.  If "false" then all requests
-         will block until the first searcher is done warming.
-      -->
-    <useColdSearcher>false</useColdSearcher>
-
-    <!-- Max Warming Searchers
-
-         Maximum number of searchers that may be warming in the
-         background concurrently.  An error is returned if this limit
-         is exceeded.
-
-         Recommend values of 1-2 for read-only slaves, higher for
-         masters w/o cache warming.
-      -->
-    <maxWarmingSearchers>2</maxWarmingSearchers>
-
-  </query>
-
-
-  <!-- Request Dispatcher
-
-       This section contains instructions for how the SolrDispatchFilter
-       should behave when processing requests for this SolrCore.
-
-       handleSelect is a legacy option that affects the behavior of requests
-       such as /select?qt=XXX
-
-       handleSelect="true" will cause the SolrDispatchFilter to process
-       the request and dispatch the query to a handler specified by the
-       "qt" param, assuming "/select" isn't already registered.
-
-       handleSelect="false" will cause the SolrDispatchFilter to
-       ignore "/select" requests, resulting in a 404 unless a handler
-       is explicitly registered with the name "/select"
-
-       handleSelect="true" is not recommended for new users, but is the default
-       for backwards compatibility
-    -->
-  <requestDispatcher handleSelect="false" >
-    <!-- Request Parsing
-
-         These settings indicate how Solr Requests may be parsed, and
-         what restrictions may be placed on the ContentStreams from
-         those requests
-
-         enableRemoteStreaming - enables use of the stream.file
-         and stream.url parameters for specifying remote streams.
-
-         multipartUploadLimitInKB - specifies the max size (in KiB) of
-         Multipart File Uploads that Solr will allow in a Request.
-
-         formdataUploadLimitInKB - specifies the max size (in KiB) of
-         form data (application/x-www-form-urlencoded) sent via
-         POST. You can use POST to pass request parameters not
-         fitting into the URL.
-
-         *** WARNING ***
-         The settings below authorize Solr to fetch remote files, You
-         should make sure your system has some authentication before
-         using enableRemoteStreaming="true"
-
-      -->
-    <requestParsers enableRemoteStreaming="true"
-                    multipartUploadLimitInKB="2048000"
-                    formdataUploadLimitInKB="2048"/>
-
-    <!-- HTTP Caching
-
-         Set HTTP caching related parameters (for proxy caches and clients).
-
-         The options below instruct Solr not to output any HTTP Caching
-         related headers
-      -->
-    <httpCaching never304="true" />
-
-  </requestDispatcher>
-
-  <!-- Request Handlers
-
-       http://wiki.apache.org/solr/SolrRequestHandler
-
-       Incoming queries will be dispatched to a specific handler by name
-       based on the path specified in the request.
-
-       Legacy behavior: If the request path uses "/select" but no Request
-       Handler has that name, and if handleSelect="true" has been specified in
-       the requestDispatcher, then the Request Handler is dispatched based on
-       the qt parameter.  Handlers without a leading '/' are accessed this way
-       like so: http://host/app/[core/]select?qt=name  If no qt is
-       given, then the requestHandler that declares default="true" will be
-       used or the one named "standard".
-
-       If a Request Handler is declared with startup="lazy", then it will
-       not be initialized until the first request that uses it.
-
-    -->
-  <!-- SearchHandler
-
-       http://wiki.apache.org/solr/SearchHandler
-
-       For processing Search Queries, the primary Request Handler
-       provided with Solr is "SearchHandler" It delegates to a sequent
-       of SearchComponents (see below) and supports distributed
-       queries across multiple shards
-    -->
-  <requestHandler name="/select" class="solr.SearchHandler">
-
-    <arr name="components">
-      <str>query</str>
-      <str>facet</str>
-      <str>highlight</str>
-      <str>spellcheck</str>
-    </arr>
-    <!-- default values for query parameters can be specified, these
-         will be overridden by parameters in the request
-      -->
-      <lst name="defaults">
-        <str name="hl">on</str>
-        <str name="hl.fl">text</str>
-        <str name="facet">on</str>
-        <str name="facet.range">favorite_count</str>
-        <str name="facet.range.start">0</str>
-        <str name="facet.range.end">10000</str>
-        <str name="facet.range.gap">250</str>
-        <str name="facet.range.include">all</str>
-        <str name="spellcheck">on</str>
-      </lst>
-
-
-
     </requestHandler>
-
-
+    <requestHandler name="/suggest" class="solr.SearchHandler" startup="lazy">
+        <lst name="defaults">
+            <str name="suggest">true</str>
+            <str name="suggest.count">10</str>
+            <str name="suggest.dictionary">auto-suggest</str>
+        </lst>
+        <arr name="components">
+            <str>suggest</str>
+        </arr>
+    </requestHandler>
     <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
-      <lst name="spellchecker">
-        <str name="classname">solr.IndexBasedSpellChecker</str>
-        <str name="spellcheckIndexDir">./spellchecker</str>
-        <str name="field">text</str>
-        <str name="buildOnCommit">true</str>
-        <str name="distanceMeasure">org.apache.lucene.search.spell.LevensteinDistance</str>
-        <str name="accuracy">0.5</str>
-      </lst>
+        <lst name="spellchecker">
+            <str name="classname">solr.IndexBasedSpellChecker</str>
+            <str name="spellcheckIndexDir">./spellchecker</str>
+            <str name="field">text</str>
+            <str name="buildOnCommit">true</str>
+            <str name="distanceMeasure">org.apache.lucene.search.spell.LevensteinDistance</str>
+            <str name="accuracy">0.5</str>
+        </lst>
     </searchComponent>
-
-     <searchComponent class="solr.HighlightComponent" name="highlight">
-       <highlighting>
-
-         <fragmenter name="gap" class="solr.highlight.GapFragmenter">
-           <lst name="defaults">
-             <int name="hl.fragsize">75</int>
-           </lst>
-         </fragmenter>
-
-         <fragmenter name="regex" default="true" class="solr.highlight.RegexFragmenter">
-           <lst name="defaults">
-             <!-- slightly smaller fragsizes work better because of slop -->
-             <int name="hl.fragsize">70</int>
-             <!-- allow 50% slop on fragment sizes -->
-             <float name="hl.regex.slop">0.5</float>
-             <!-- a basic sentence pattern -->
-             <str name="hl.regex.pattern">[-\w ,/\n\&quot;&apos;]{20,200}</str>
-           </lst>
-         </fragmenter>
-
-         <formatter name="html"
-                    default="true"
-                    class="solr.highlight.HtmlFormatter">
-           <lst name="defaults">
-             <str name="hl.simple.pre"><![CDATA[<em>]]></str>
-             <str name="hl.simple.post"><![CDATA[</em>]]></str>
-           </lst>
-         </formatter>
-
-       </highlighting>
-     </searchComponent>
-
-  <!-- Response Writers
-
-       http://wiki.apache.org/solr/QueryResponseWriter
-
-       Request responses will be written using the writer specified by
-       the 'wt' request parameter matching the name of a registered
-       writer.
-
-       The "default" writer is the default and will be used if 'wt' is
-       not specified in the request.
-    -->
-  <!-- The following response writers are implicitly configured unless
-       overridden...
-    -->
-  <!--
-     <queryResponseWriter name="xml"
-                          default="true"
-                          class="solr.XMLResponseWriter" />
-     <queryResponseWriter name="json" class="solr.JSONResponseWriter"/>
-     <queryResponseWriter name="python" class="solr.PythonResponseWriter"/>
-     <queryResponseWriter name="ruby" class="solr.RubyResponseWriter"/>
-     <queryResponseWriter name="php" class="solr.PHPResponseWriter"/>
-     <queryResponseWriter name="phps" class="solr.PHPSerializedResponseWriter"/>
-     <queryResponseWriter name="csv" class="solr.CSVResponseWriter"/>
-     <queryResponseWriter name="schema.xml" class="solr.SchemaXmlResponseWriter"/>
-    -->
-
-  <queryResponseWriter name="json" class="solr.JSONResponseWriter">
-     <!-- For the purposes of the tutorial, JSON responses are written as
-      plain text so that they are easy to read in *any* browser.
-      If you expect a MIME type of "application/json" just remove this override.
-     -->
-    <str name="content-type">text/plain; charset=UTF-8</str>
-  </queryResponseWriter>
-
-
-
-
-  <!-- Legacy config for the admin interface -->
-  <admin>
-    <defaultQuery>*:*</defaultQuery>
-  </admin>
-
-  <requestHandler name="/dataimport" class="org.apache.solr.handler.dataimport.DataImportHandler">
-    <lst name="defaults">
-      <str name="config">data-config.xml</str>
-    </lst>
-  </requestHandler>
-
+    <searchComponent class="solr.HighlightComponent" name="highlight">
+        <highlighting>
+            <fragmenter name="gap" class="solr.highlight.GapFragmenter">
+                <lst name="defaults">
+                    <int name="hl.fragsize">75</int>
+                </lst>
+            </fragmenter>
+            <fragmenter name="regex" default="true" class="solr.highlight.RegexFragmenter">
+                <lst name="defaults">
+                    <!-- slightly smaller fragsizes work better because of slop -->
+                    <int name="hl.fragsize">70</int>
+                    <!-- allow 50% slop on fragment sizes -->
+                    <float name="hl.regex.slop">0.5</float>
+                    <!-- a basic sentence pattern -->
+                    <str name="hl.regex.pattern">[-\w ,/\n\&amp;quot;&amp;apos;]{20,200}</str>
+                </lst>
+            </fragmenter>
+            <formatter name="html" default="true" class="solr.highlight.HtmlFormatter">
+                <lst name="defaults">
+                    <str name="hl.simple.pre"><![CDATA[<em>]]></str>
+                    <str name="hl.simple.post"><![CDATA[</em>]]></str>
+                </lst>
+            </formatter>
+        </highlighting>
+    </searchComponent>
+    <searchComponent name="suggest" class="solr.SuggestComponent">
+        <lst name="suggester">
+            <str name="name">auto-suggest</str>
+            <str name="lookupImpl">FuzzyLookupFactory</str>
+            <str name="dictionaryImpl">HighFrequencyDictionaryFactory</str>
+            <float name="threshold">.005</float>
+            <str name="field">text</str>
+            <str name="suggestAnalyzerFieldType">text_en</str>
+            <str name="buildOnStartup">true</str>
+        </lst>
+    </searchComponent>
+    <queryResponseWriter name="json" class="solr.JSONResponseWriter">
+        <str name="content-type">text/plain; charset=UTF-8</str>
+    </queryResponseWriter>
+    <!-- Legacy config for the admin interface -->
+    <admin>
+        <defaultQuery>*:*</defaultQuery>
+    </admin>
+    <requestHandler name="/dataimport" class="org.apache.solr.handler.dataimport.DataImportHandler">
+        <lst name="defaults">
+            <str name="config">data-config.xml</str>
+        </lst>
+    </requestHandler>
 </config>
