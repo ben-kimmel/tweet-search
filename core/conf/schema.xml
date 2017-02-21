@@ -6,7 +6,7 @@
    <field name="favorite_count"  type="int"    indexed="true" stored="true"/>
    <field name="text"      type="text_en"  indexed="true" stored="true"/>
    <field name="in_reply_to_screen_name"    type="string"     indexed="true" stored="true"/>
-   <field name="created_at"      type="date"    indexed="true" stored="true"/>
+   <field name="created_at"      type="string"    indexed="true" stored="true"/>
    <field name="is_retweet" type="string"    indexed="true" stored="true"/>
    <field name="retweet_count" type="int"    indexed="true" stored="false"/>
    <field name="_version_" type="string" indexed="true" stored="true" multiValued="false" />
